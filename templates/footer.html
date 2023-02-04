@@ -1,0 +1,33 @@
+<div>
+  <!-- Scroll to Top -->
+  <button onclick="topFunction()" id="scrollBtn" title="Go to top">
+    <i class="fa-solid fa-chevron-up text-primary"></i>
+  </button>
+
+  <footer class="absolute bottom-0 bg-light py-5 mt-5 border border-top py-4">
+    <div class="container d-flex justify-content-center">
+      <p>Copyright &copy; 2023 <strong>Tomar.com</strong></p>
+    </div>
+  </footer>
+
+  <script>
+    let scrollBtn = document.getElementById("scrollBtn");
+
+    // When the user scrolls down 20px from the top of the document, show the button
+    window.onscroll = function () { scrollFunction() };
+
+    function scrollFunction() {
+      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        scrollBtn.style.display = "block";
+      } else {
+        scrollBtn.style.display = "none";
+      }
+    }
+
+    // When the user clicks on the button, scroll to the top of the document
+    function topFunction() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
+  </script>
+</div>

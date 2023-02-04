@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% load static %}
+{% load post_read_time %}
+
+{% block title %} Home {% endblock %}
+
+{% block main %}
+
+{% include "navbar.html" %}
+
+<div class="container-fluid main">
+  <div class="container px-md-5 pt-5">
+    <div class="row">
+      <div class="col-lg-8">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show pb-2" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% for post in posts %}
+        <div class="card mb-4">
+          <div class="card-body">
+            <h4 class="card-title mb-0">
+              <a href="{% url 'blog:post-detail' post.slug %}">{{ post.title|truncatechars:80 }}</a>
+            </h4>
+            <div class="small text-muted">
+              <a href="{% url 'accounts:profile' post.author.uid %}"
+                class="author-link">{{ post.author.get_full_name }}</a>
+              <a class="d-none d-md-inline category" href="{% url 'blog:category' post.category.slug %}">in
+                <strong>{{ post.category }}</strong></a>
+              <span>&nbsp;|&nbsp;</span>
+              <span>{{ post.last_update|date:"M d" }}</span><span
+                class="dot"></span><span>{{ post.content|readtime }}</span>
+            </div>
+            <p class="card-text mt-1 text-muted">{{ post.content|truncatechars_html:130|safe }}</p>
+            <div class="d-flex justify-content-between">
+              <a href="{% url 'blog:post-detail' post.slug %}" class="read-more">Read more
+                <span>&rarr;</span></a>
+              {% csrf_token %}
+              <button class="bookmark" value="{{ post.pk }}" title="Bookmark story">
+                <i class="far fa-bookmark"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        <br>
+        <div class="container my-5 pb-5 d-flex justify-content-center">
+          <div class="pagination">
+            {% if page_obj.has_previous %}
+            <a href="?page=1" class="mx-2 ps-1" title="First Page"><i class="fas fa-angle-double-left"></i></a>
+            <a href="?page={{ page_obj.previous_page_number }}" class="mx-2 px-1" title="Previous Page"><i
+                class="fas fa-angle-left"></i></a>
+            {% endif %}
+
+            {% if posts|length > 10 %}
+            <span class="current mx-2">
+              {{ page_obj.number }}
+            </span>
+            {% endif %}
+
+            {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="mx-2 px-1" title="Next Page"><i
+                class="fas fa-angle-right"></i></a>
+            <a href="?page={{ page_obj.paginator.num_pages }}" class="mx-2 pe-1" title="Last Page"><i
+                class="fas fa-angle-double-right"></i></a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 d-none d-lg-block">
+        <div class="position-sticky" style="top: 2rem">
+          <div class="p-4">
+            <h4>Explore</h4>
+            <div class="d-flex flex-wrap popularcategory">
+              {% for category in popular_categories %}
+              <a href="{% url 'blog:category' category.slug %}"
+                class="btn btn-outline-secondary m-1">{{ category.name }}</a>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+{% include "footer.html" %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+  integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+  // Change active nav element dynamically based on the URL
+  $(document).ready(function () {
+    const currentUrl = location.pathname;
+    $(".navbar-nav li").find("a.active").removeClass("active");
+    $(".navbar-nav li").find("a.active").removeAttr("aria-current");
+    $('.navbar-nav li a[href="' + currentUrl + '"]').addClass('active');
+    $('.navbar-nav li a[href="' + currentUrl + '"]').attr("aria-current", "page");
+  });
+</script>
+<script src="{% static 'accounts/js/app.js' %}"></script>
+{% endblock %}

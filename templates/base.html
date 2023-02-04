@@ -1,0 +1,87 @@
+{% load static i18n %}
+<!DOCTYPE html>
+{% get_current_language as LANGUAGE_CODE %}
+<html lang="{{ LANGUAGE_CODE }}">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>{% block title %}Tomar.com - Read and share stories{% endblock title %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="All Jobs in one place!">
+  <meta name="author" content="Alemnew Marie">
+
+  <link rel="icon" href="{% static 'images/favicons/favicon.ico' %}">
+
+  {% block css %}
+  <!-- Latest compiled and minified Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.2/css/bootstrap.min.css"
+    integrity="sha512-CpIKUSyh9QX2+zSdfGP+eWLx23C8Dj9/XmHjZY2uDtfkdLGo0uY12jgcnkX9vXOgYajEKb/jiw67EYm+kBf+6g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Third-party CSS libraries go here -->
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- This file stores project-specific CSS -->
+  <link href="{% static 'css/base.css' %}" rel="stylesheet">
+  {% endblock %}
+  <!-- Le javascript
+    ================================================== -->
+  {# Placed at the top of the document so pages load faster with defer #}
+  {% block javascript %}
+  <!-- Bootstrap JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.bundle.min.js"
+    integrity="sha512-i9cEfJwUwViEPFKdC1enz4ZRGBj8YQo6QByFTF92YXHi7waCqyexvRD75S5NVTsSiTv7rKWqG9Y5eFxmRsOn0A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <!-- Third-party javascript libraries go here -->
+
+  <!-- place project specific Javascript in this file -->
+  <script defer src="{% static 'js/project.js' %}"></script>
+
+  {% endblock javascript %}
+
+
+</head>
+
+<body>
+
+  {% include "navbar.html" %}
+
+  <div class="container-fuild">
+
+    <div class="row">
+      <div class="container col-lg-10" id="message">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-dismissible {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+
+    {% block content %}
+
+    {% endblock content %}
+
+  </div> <!-- /container -->
+
+  {% block modal %}{% endblock modal %}
+
+  {% block inline_javascript %}
+  {% comment %}
+  Script tags with only code, no src (defer by default). To run
+  with a "defer" so that you run inline code:
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {/* Run whatever you want */ });
+  </script>
+  {% endcomment %}
+  {% endblock inline_javascript %}
+</body>
+
+</html>

@@ -1,0 +1,65 @@
+/* These styles are generated from project.scss. */
+
+.landing-img img {
+  /* width: 50px;
+  height: 50px; */
+  width: 100%;
+}
+
+.alert-debug {
+  color: black;
+  background-color: white;
+  border-color: #d6e9c6;
+}
+
+.alert-error {
+  color: #b94a48;
+  background-color: #f2dede;
+  border-color: #eed3d7;
+}
+
+.showcase img {
+  width: 100%;
+}
+
+.card-title a {
+  color: #353434;
+  text-decoration: none;
+}
+
+.card-title a:hover {
+  text-decoration: underline;
+}
+
+#filter .form-label {
+  font-weight: 500;
+}
+
+#scrollBtn {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  z-index: 99;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 4px;
+  background-color: #dadada;
+}
+
+#scrollBtn:hover {
+  background-color: #aeaeae;
+}
+
+#div_id_location {
+  display: none;
+}
+
+.bookmarkBtn {
+  all: unset;
+  z-index: 99;
+  cursor: pointer;
+}
