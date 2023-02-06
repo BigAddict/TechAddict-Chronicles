@@ -15,6 +15,11 @@
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}
   <button class="btn btn-danger" type="submit">Sign Out</button>
-  <a class="ms-3" href="{% url 'blog:home' %}">Back to home page</a>
 </form>
+
+<div class="mt-4">
+  <a href="{% url 'blog:home' %}" style="text-decoration: none;">
+    <i class="fa-solid fa-arrow-left me-2"></i> Back to Stories
+  </a>
+</div>
 {% endblock %}
