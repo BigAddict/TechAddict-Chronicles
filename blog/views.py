@@ -9,6 +9,6 @@ class HomePageView(TemplateView):
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             # redirect to stories page
-            HttpResponse("This will be stories page (redirected)")
+            return HttpResponse("This will be stories page (redirected)")
 
         return render(request, "blog/landing_page.html")

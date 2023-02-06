@@ -29,15 +29,15 @@
               <li>
                 <hr class="dropdown-divider">
               </li>
-              <li><a class="dropdown-item" href="#">Sign out</a></li>
+              <li><a class="dropdown-item" href="{% url 'account_logout' %}">Sign out</a></li>
             </ul>
           </li>
           {% else %}
           <li class="nav-item mx-md-2">
-            <a class="nav-link" href="#">Sign in</a>
+            <a class="nav-link" href="{% url 'account_login' %}">Sign in</a>
           </li>
           <li class="nav-item mx-md-2">
-            <a class="nav-link btn btn-primary text-white" href="#">Sign up</a>
+            <a class="nav-link btn btn-primary text-white" href="{% url 'account_signup' %}">Sign up</a>
           </li>
           {% endif %}
         </ul>
