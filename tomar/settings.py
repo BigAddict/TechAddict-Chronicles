@@ -50,6 +50,7 @@ THIRD_PARTY_APPS = [
     "allauth.account",
     "crispy_forms",
     "crispy_bootstrap5",
+    "ckeditor",
 ]
 
 LOCAL_APPS = [
@@ -140,6 +141,8 @@ AUTH_USER_MODEL = "accounts.User"
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "static/"
+# STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
@@ -155,7 +158,6 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 # django-allauth config
 # https://django-allauth.readthedocs.io/en/latest/installation.html
-
 SITE_ID = 1
 LOGIN_REDIRECT_URL = "blog:home"
 ACCOUNT_LOGOUT_REDIRECT = "blog:home"
@@ -180,3 +182,42 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = os.getenv("EMAIL_USER")
 EMAIL_HOST_PASSWORD = os.getenv("SENDGRID_API_KEY")
 EMAIL_USE_TLS = True
+
+# django-ckeditor
+# https://github.com/django-ckeditor/django-ckeditor#installation
+# django-ckeditor
+CKEDITOR_CONFIGS = {
+    "default": {
+        "toolbar": "Custom",
+        "toolbar_Custom": [
+            ["Bold", "Italic", "Underline"],
+            {
+                "name": "clipboard",
+                "items": [
+                    "Cut",
+                    "Copy",
+                    "Paste",
+                    "PasteText",
+                    "-",
+                    "Undo",
+                    "Redo",
+                ],
+            },
+            [
+                "NumberedList",
+                "BulletedList",
+                "-",
+                "Blockquote",
+                "-",
+                "Outdent",
+                "Indent",
+            ],
+            {"name": "extra", "items": ["CodeSnippet"]},
+            ["Link", "Unlink", "Preview"],
+            ["Source"],
+        ],
+        "extraPlugins": ",".join(["codesnippet"]),
+        "toolbarCanCollapse": True,
+        "width": "100%",
+    }
+}
