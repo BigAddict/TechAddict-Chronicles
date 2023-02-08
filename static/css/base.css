@@ -168,3 +168,8 @@ a {
 #arrowonhover:hover span {
   display: inline-block;
 }
+
+#div_id_content {
+  display: flex;
+  flex-direction: column;
+}

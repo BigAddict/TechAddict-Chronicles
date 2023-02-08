@@ -17,7 +17,7 @@
             <a class="nav-link active" aria-current="page" href="{% url 'blog:post_list' %}">Stories</a>
           </li>
           <li class="nav-item mx-md-2">
-            <a class="nav-link" href="#">Write</a>
+            <a class="nav-link" href="{% url 'blog:post_create' %}">Write</a>
           </li>
           {% if user.is_authenticated %}
           <li class="nav-item dropdown mx-md-2">
@@ -25,11 +25,14 @@
               Account
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Saved</a></li>
+              <li><a class="dropdown-item" href="#"><i class="fa-regular fa-pen-to-square me-2"></i>Draft</a></li>
+              <li><a class="dropdown-item" href="#"><i class="fa-regular fa-bookmark me-2"></i>Saved</a></li>
+              <li><a class="dropdown-item" href="#"><i class="fa-regular fa-user me-2"></i>Profile</a></li>
               <li>
                 <hr class="dropdown-divider">
               </li>
-              <li><a class="dropdown-item" href="{% url 'account_logout' %}">Sign out</a></li>
+              <li><a class="dropdown-item" href="{% url 'account_logout' %}"><i
+                    class="fa-solid fa-arrow-right-from-bracket me-2"></i>Sign out</a></li>
             </ul>
           </li>
           {% else %}
