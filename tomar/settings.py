@@ -185,7 +185,6 @@ EMAIL_USE_TLS = True
 
 # django-ckeditor
 # https://github.com/django-ckeditor/django-ckeditor#installation
-# django-ckeditor
 CKEDITOR_CONFIGS = {
     "default": {
         "toolbar": "Custom",

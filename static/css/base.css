@@ -1,8 +1,10 @@
 /* These styles are generated from project.scss. */
 
+a {
+  text-decoration: none;
+}
+
 .landing-img img {
-  /* width: 50px;
-  height: 50px; */
   width: 100%;
 }
 
@@ -58,8 +60,111 @@
   display: none;
 }
 
-.bookmarkBtn {
+.bookmark {
   all: unset;
-  z-index: 99;
+  padding: 0 5px;
+  border-radius: 50%;
+}
+
+.subscribe {
+  border-radius: 30px;
+  font-size: 0.9rem;
+  margin-left: 10px;
+  font-weight: 600;
+  padding: 5px 10px;
+  margin-bottom: 0;
+}
+
+#signup {
+  color: #fff;
+}
+
+.dot:after {
+  content: "·";
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.card:hover {
+  box-shadow: 0 10px 28px #E3E7EB;
+}
+
+.card-title a {
+  color: inherit;
+}
+
+.read-more span {
+  display: none;
+}
+
+.read-more:hover span {
+  display: inline;
+}
+
+.category {
+  color: #555;
+}
+
+.author-link {
+  color: #555;
+  font-weight: bold;
+}
+
+.category:hover,
+.author-link:hover {
+  color: #111;
+}
+
+.upvote,
+.downvote {
+  all: unset;
+  padding: 0 5px;
+}
+
+.react {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 20px;
+  padding: 1px 8px;
+}
+
+.bookmark:hover {
   cursor: pointer;
+}
+
+.follow {
+  padding: 2px 10px;
+  border-radius: 15px;
+}
+
+.category-detail {
+  background: rgba(0, 0, 0, 0.05);
+  color: rgba(0, 0, 0, 0.6);
+  border-radius: 3px;
+  padding: 5px 10px;
+}
+
+.category-detail:hover {
+  color: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.07);
+  text-decoration: none;
+}
+
+.article-post {
+  font-family: Merriweather;
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.article-post p,
+.article-post blockquote {
+  margin: 0 0 1.5rem 0;
+}
+
+#arrowonhover span {
+  display: none;
+}
+
+#arrowonhover:hover span {
+  display: inline-block;
 }

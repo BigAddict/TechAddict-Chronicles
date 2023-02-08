@@ -62,17 +62,15 @@
   <div class="row">
     <div class="col-md-7 mx-auto">
       <h2 class="mb-4">Recommended</h2>
-      {% comment %}
       {% for post in featured_posts %}
       <div class="card mb-4">
         <div class="card-body">
           <h4 class="card-title mb-0">
-            <a href="{% url 'blog:post-detail' post.slug %}">{{ post.title|truncatechars:80 }}</a>
+            <a href="{% url 'blog:post_detail' post.slug %}">{{ post.title|truncatechars:80 }}</a>
           </h4>
           <div class="small text-muted">
-            <a href="{% url 'accounts:profile' post.author.uid %}"
-              class="author-link">{{ post.author.get_full_name }}</a>
-            <a class="d-none d-md-inline category" href="{% url 'blog:category' post.category.slug %}">in
+            <a href="#" class="author-link">{{ post.author.get_full_name }}</a>
+            <a class="d-none d-md-inline category" href="#">in
               <strong>{{ post.category }}</strong></a>
             <span>&nbsp;|&nbsp;</span>
             <span>{{ post.last_update|date:"M d" }}</span><span
@@ -80,7 +78,7 @@
           </div>
           <p class="card-text mt-1 text-muted">{{ post.content|truncatechars_html:130|safe }}</p>
           <div class="d-flex justify-content-between">
-            <a href="{% url 'blog:post-detail' post.slug %}" class="read-more">Read more
+            <a href="{% url 'blog:post_detail' post.slug %}" class="read-more">Read more
               <span>&rarr;</span></a>
             {% csrf_token %}
             <button class="bookmark" value="{{ post.pk }}" title="Bookmark story">
@@ -90,20 +88,16 @@
         </div>
       </div>
       {% endfor %}
-      {% endcomment %}
     </div>
     <div class="col-lg-4 d-none d-lg-block">
       <div class="position-sticky" style="top: 2rem">
         <div class="p-4">
           <h4>Explore categories</h4>
-          {% comment %}
           <div class="d-flex flex-wrap popularcategory">
             {% for category in popular_categories %}
-            <a href="{% url 'blog:category' category.slug %}"
-              class="btn btn-outline-secondary m-1">{{ category.name }}</a>
+            <a href="#" class="btn btn-outline-secondary m-1">{{ category.name }}</a>
             {% endfor %}
           </div>
-          {% endcomment %}
         </div>
       </div>
     </div>
@@ -111,7 +105,7 @@
 </div>
 <div class="container px-md-5 my-5 pb-5">
   <div class="d-flex align-items-center justify-content-center">
-    <a href="#" class="btn btn-primary fs-5" id="arrowonhover">All Stories
+    <a href="{% url 'blog:post_list' %}" class="btn btn-primary fs-5" id="arrowonhover">All Stories
       <span>&rarr;</span></a>
   </div>
 </div>
