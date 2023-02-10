@@ -22,8 +22,8 @@
           </div>
           {% if request.user == post.author %}
           <div>
-            <a href="#" title="Edit post"><i class="far fa-edit"></i></a>
-            <a href="#" class="ms-1" title="Delete post"><i class="fas fa-trash"></i></a>
+            <a href="{% url 'blog:post_update' post.slug %}" title="Edit post"><i class="far fa-edit"></i></a>
+            <a href="{% url 'blog:post_delete' post.slug %}" class="ms-2 text-danger" title="Delete post"><i class="fas fa-trash"></i></a>
           </div>
           {% else %}
           {% csrf_token %}
