@@ -2,7 +2,7 @@
 {% load static %}
 {% load post_read_time %}
 
-{% block title %} Home {% endblock %}
+{% block title %} Explore posts in {{ category.name }} {% endblock %}
 
 {% block content %}
 
@@ -10,9 +10,14 @@
   <div class="container px-md-5 pt-5">
     <div class="row">
       <div class="col-lg-8">
-        <h5 class="mb-4">Latest stories</h5>
+        {% if category_posts|length != 0 %}
+        <h5 class="mb-4">{{ category.name }} ({{ category_posts|length }}) </h5>
+        {% else %}
+        <p>Currently no posts published in <strong>{{ category.name }}</strong>.</p>
+        <a href="{% url 'blog:post_create' %}">Start writing</a>
+        {% endif %}
 
-        {% for post in posts %}
+        {% for post in category_posts %}
         <div class="card mb-4">
           <div class="card-body">
             <h4 class="card-title mb-0">
@@ -20,8 +25,7 @@
             </h4>
             <div class="small text-muted">
               <a href="#" class="author-link">{{ post.author.get_full_name }}</a>
-              <a class="category" href="{% url 'blog:category' post.category.slug %}">in
-                <strong>{{ post.category }}</strong></a>
+              <a class="category" href="{% url 'blog:category' post.category.slug %}"></a>
               <span>&nbsp;|&nbsp;</span>
               <span>{{ post.modified_at|date:"M d" }}</span><span
                 class="dot"></span><span>{{ post.content|readtime }}</span>
@@ -68,8 +72,10 @@
             <h4>Explore</h4>
             <div class="d-flex flex-wrap popularcategory">
               {% for category in popular_categories %}
+              {% if category.name != category_posts.0.category.name %}
               <a href="{% url 'blog:category' category.slug %}"
                 class="btn btn-outline-secondary m-1">{{ category.name }}</a>
+              {% endif %}
               {% endfor %}
             </div>
           </div>

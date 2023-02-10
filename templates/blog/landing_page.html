@@ -70,7 +70,7 @@
           </h4>
           <div class="small text-muted">
             <a href="#" class="author-link">{{ post.author.get_full_name }}</a>
-            <a class="d-none d-md-inline category" href="#">in
+            <a class="d-none d-md-inline category" href="{% url 'blog:category' post.category.slug %}">in
               <strong>{{ post.category }}</strong></a>
             <span>&nbsp;|&nbsp;</span>
             <span>{{ post.last_update|date:"M d" }}</span><span
@@ -95,7 +95,8 @@
           <h4>Explore categories</h4>
           <div class="d-flex flex-wrap popularcategory">
             {% for category in popular_categories %}
-            <a href="#" class="btn btn-outline-secondary m-1">{{ category.name }}</a>
+            <a href="{% url 'blog:category' category.slug %}"
+              class="btn btn-outline-secondary m-1">{{ category.name }}</a>
             {% endfor %}
           </div>
         </div>

@@ -42,7 +42,6 @@ class PostListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["popular_categories"] = Category.objects.all()[:6]
-
         return context
 
 
@@ -89,3 +88,21 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         return self.get_object().author == self.request.user
+
+
+class CategoryView(ListView):
+    """Show all post in a category."""
+
+    model = Category
+    template_name = "blog/category.html"
+    context_object_name = "category_posts"
+    paginate_by = 10
+
+    def get_queryset(self):
+        return Category.objects.get(slug=self.kwargs["slug"]).post_set.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["category"] = Category.objects.get(slug=self.kwargs["slug"])
+        context["popular_categories"] = Category.objects.all()[:6]
+        return context
