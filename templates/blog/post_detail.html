@@ -29,7 +29,11 @@
           {% else %}
           {% csrf_token %}
           <button class="bookmark" value="{{ post.pk }}" title="Bookmark story">
+            {% if post in saved_posts %}
+            <i class="fas fa-bookmark"></i>
+            {% else %}
             <i class="far fa-bookmark"></i>
+            {% endif %}
           </button>
           {% endif %}
         </div>
@@ -99,5 +103,4 @@
   integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
   crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-<script src="{% static 'accounts/js/app.js' %}"></script>
 {% endblock %}

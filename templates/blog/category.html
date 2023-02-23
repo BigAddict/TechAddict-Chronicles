@@ -36,7 +36,11 @@
                 <span>&rarr;</span></a>
               {% csrf_token %}
               <button class="bookmark" value="{{ post.pk }}" title="Bookmark story">
+                {% if post in saved_posts %}
+                <i class="fas fa-bookmark"></i>
+                {% else %}
                 <i class="far fa-bookmark"></i>
+                {% endif %}
               </button>
             </div>
           </div>
@@ -44,7 +48,7 @@
         {% endfor %}
         <br>
         <!-- Pagination -->
-        {% if category_posts|length > 0 %}
+        {% if category_posts|length > 10 %}
         {% include "pagination.html" %}
         {% endif %}
         <!-- End pagination -->
@@ -86,5 +90,4 @@
     $('.navbar-nav li a[href="' + currentUrl + '"]').attr("aria-current", "page");
   });
 </script>
-<script src="{% static 'accounts/js/app.js' %}"></script>
 {% endblock %}

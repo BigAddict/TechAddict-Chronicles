@@ -11,34 +11,32 @@
   <div class="container px-md-5 pt-5">
     <div class="row">
       <div class="col-lg-8">
-        <h5 class="mb-4">Latest stories</h5>
+        <h5 class="mb-4">My Bookmarks</h5>
+        {% if bookmarks|length > 0 %}
 
-        {% for post in posts %}
+        {% for bookmark in bookmarks %}
         <div class="card mb-4">
           <div class="card-body">
             <h4 class="card-title mb-0">
-              <a href="{% url 'blog:post_detail' post.slug %}">{{ post.title|truncatechars:80 }}</a>
+              <a href="{% url 'blog:post_detail' bookmark.post.slug %}">{{ bookmark.post.title|truncatechars:80 }}</a>
             </h4>
             <div class="small text-muted">
-              <a href="#" class="author-link">{{ post.author.get_full_name }}</a>
-              <a class="category" href="{% url 'blog:category' post.category.slug %}">in
-                <strong>{{ post.category }}</strong></a>
+              <a href="#" class="author-link">{{ bookmark.post.author.get_full_name }}</a>
+              <a class="category" href="{% url 'blog:category' bookmark.post.category.slug %}">in
+                <strong>{{ bookmark.post.category }}</strong></a>
               <span>&nbsp;|&nbsp;</span>
-              <span>{{ post.modified_at|date:"M d" }}</span><span
-                class="dot"></span><span>{{ post.content|readtime }}</span>
+              <span>{{ bookmark.post.modified_at|date:"M d" }}</span><span
+                class="dot"></span><span>{{ bookmark.post.content|readtime }}</span>
             </div>
-            <p class="card-text mt-1 text-muted">{{ post.content|truncatechars_html:130|safe }}</p>
+            <p class="card-text mt-1 text-muted">{{ bookmark.post.content|truncatechars_html:130|safe }}</p>
             <div class="d-flex justify-content-between">
-              <a href="{% url 'blog:post_detail' post.slug %}" class="read-more">Read more
+              <a href="{% url 'blog:post_detail' bookmark.post.slug %}" class="read-more">Read more
                 <span>&rarr;</span></a>
 
               {% csrf_token %}
-              <button class="bookmark" value="{{ post.pk }}" title="Bookmark story">
-                {% if post in saved_posts %}
+              <button class="bookmark" value="{{ bookmark.post.pk }}" title="Bookmark story">
                 <i class="fas fa-bookmark"></i>
-                {% else %}
-                <i class="far fa-bookmark"></i>
-                {% endif %}
+
               </button>
             </div>
           </div>
@@ -46,25 +44,13 @@
         {% endfor %}
         <br>
         <!-- Pagination -->
-        {% if posts|length > 10 %}
+        {% if bookmarks|length > 10 %}
         {% include "pagination.html" %}
         {% endif %}
         <!-- End pagination -->
-      </div>
-
-      <!-- Sidebar -->
-      <div class="col-lg-4 d-none d-lg-block">
-        <div class="position-sticky" style="top: 2rem">
-          <div class="p-4">
-            <h4>Explore</h4>
-            <div class="d-flex flex-wrap popularcategory">
-              {% for category in popular_categories %}
-              <a href="{% url 'blog:category' category.slug %}"
-                class="btn btn-outline-secondary m-1">{{ category.name }}</a>
-              {% endfor %}
-            </div>
-          </div>
-        </div>
+        {% else %}
+        <p>You don't have any saved posts. Click the bookmark icon to save posts.</p>
+        {% endif %}
       </div>
     </div>
   </div>

@@ -8,21 +8,24 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Post, Category
 
 
+def get_saved_posts(user):
+    """Return list of saved posts by the user (if any)"""
+    if not user.is_authenticated:
+        return []
+    return [b.post for b in user.bookmark_set.all()]
+
+
 class HomePageView(View):
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             return redirect(to=reverse("blog:post_list"))
 
-        # popular posts and categories on landing page
-        featured_posts = Post.objects.all()[:10]
-
-        popular_categories = Category.objects.all()[:6]
         return render(
             request,
-            template_name="blog/landing_page.html",
+            "blog/landing_page.html",
             context={
-                "featured_posts": featured_posts,
-                "popular_categories": popular_categories,
+                "featured_posts": Post.objects.all()[:10],
+                "popular_categories": Category.objects.all()[:6],
             },
         )
 
@@ -33,15 +36,12 @@ class PostListView(ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return (
-            Post.objects.select_related("category")
-            .select_related("author")
-            .filter(status=1)
-        )
+        return Post.objects.filter(status=1)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["popular_categories"] = Category.objects.all()[:6]
+        context["saved_posts"] = get_saved_posts(self.request.user)
         return context
 
 
@@ -66,6 +66,11 @@ class PostDetailView(DetailView):
     model = Post
     context_object_name = "post"
     template_name = "blog/post_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["saved_posts"] = get_saved_posts(self.request.user)
+        return context
 
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -105,4 +110,5 @@ class CategoryView(ListView):
         context = super().get_context_data(**kwargs)
         context["category"] = Category.objects.get(slug=self.kwargs["slug"])
         context["popular_categories"] = Category.objects.all()[:6]
+        context["saved_posts"] = get_saved_posts(self.request.user)
         return context
