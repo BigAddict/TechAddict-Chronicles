@@ -43,29 +43,14 @@
         </div>
         {% endfor %}
         <br>
-        <div class="container my-5 pb-5 d-flex justify-content-center">
-          <div class="pagination">
-            {% if page_obj.has_previous %}
-            <a href="?page=1" class="mx-2 ps-1" title="First Page"><i class="fas fa-angle-double-left"></i></a>
-            <a href="?page={{ page_obj.previous_page_number }}" class="mx-2 px-1" title="Previous Page"><i
-                class="fas fa-angle-left"></i></a>
-            {% endif %}
-
-            {% if posts|length > 10 %}
-            <span class="current mx-2">
-              {{ page_obj.number }}
-            </span>
-            {% endif %}
-
-            {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}" class="mx-2 px-1" title="Next Page"><i
-                class="fas fa-angle-right"></i></a>
-            <a href="?page={{ page_obj.paginator.num_pages }}" class="mx-2 pe-1" title="Last Page"><i
-                class="fas fa-angle-double-right"></i></a>
-            {% endif %}
-          </div>
-        </div>
+        <!-- Pagination -->
+        {% if category_posts|length > 0 %}
+        {% include "pagination.html" %}
+        {% endif %}
+        <!-- End pagination -->
       </div>
+
+      <!-- Sidebar -->
       <div class="col-lg-4 d-none d-lg-block">
         <div class="position-sticky" style="top: 2rem">
           <div class="p-4">

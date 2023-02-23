@@ -1,0 +1,41 @@
+{% load query_transform %}
+
+<div class="my-5 py-2 d-flex justify-content-center bg-white">
+  <div class="d-flex align-items-center pagination">
+    {% if page_obj.has_previous %}
+    <a href="?{% query_transform request page=1 %}" class="text-primary mx-2 ps-1" title="First Page">
+      <i class="fas fa-angle-double-left"></i>
+    </a>
+    <a href="?{% query_transform request page=page_obj.previous_page_number %}" class="text-primary mx-2 px-1"
+      title="Previous Page"><i class="fas fa-angle-left me-2"></i><span>Prev</span>
+    </a>
+    {% else %}
+    <a href="#" class="disabled text-secondary mx-2 ps-1">
+      <i class="fas fa-angle-double-left"></i>
+    </a>
+    <a href="#" class="disabled text-secondary mx-2 px-1">
+      <i class="fas fa-angle-left me-2"></i><span>Prev</span>
+    </a>
+    {% endif %}
+
+    <span class="mx-2 current">
+      {{ page_obj.number }}
+    </span>
+
+    {% if page_obj.has_next %}
+    <a href="?{% query_transform request page=page_obj.next_page_number %}" class="text-primary mx-2 px-1"
+      title="Next Page"><span>Next</span><i class="fas fa-angle-right ms-2"></i>
+    </a>
+    <a href="?{% query_transform request page=page_obj.paginator.num_pages %}" class="text-primary mx-2 pe-1"
+      title="Last Page"><i class="fas fa-angle-double-right"></i>
+    </a>
+    {% else %}
+    <a href="#" class="disabled text-secondary mx-2 px-1">
+      <span>Next</span><i class="fas fa-angle-right ms-2"></i>
+    </a>
+    <a href="#" class="disabled text-secondary mx-2 pe-1">
+      <i class="fas fa-angle-double-right"></i>
+    </a>
+    {% endif %}
+  </div>
+</div>
