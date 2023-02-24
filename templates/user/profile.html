@@ -13,7 +13,8 @@
         <div class="d-flex align-items-center justify-content-center justify-content-md-start mb-0">
           <span class="me-2 fs-4">{{ author.get_full_name }}</span>
           {% if request.user == author %}
-          <a href="#" title="Update your profile"><i class="fas fa-user-edit ms-2"></i></a>
+          <a href="{% url 'accounts:profile_update' author.username %}" title="Update your profile"><i
+              class="fas fa-user-edit ms-2"></i></a>
           {% elif request.user in author.profile.followers %}
           <button class="btn btn-sm btn-outline-primary follow" value="{{ user.pk }}">Following</button>
           {% else %}
@@ -85,7 +86,7 @@
       <!-- Author has not published posts -->
       {% else %}
       <div class="col-12 col-lg-7 mx-auto">
-        <p>Sorry! {{ user.first_name }} doesn't have any posts published yet.</p>
+        <p>Sorry! {{ author.first_name }} doesn't have any posts published yet.</p>
       </div>
       {% endif %}
     </div>
@@ -94,8 +95,8 @@
     <div class="col-lg-4 d-none d-lg-block">
       <div class="position-sticky" style="top: 2rem">
         <div class="p-4">
-          <h4>About me</h4>
-
+          <h4>About</h4>
+          <p>{{ author.profile.about }}</p>
         </div>
       </div>
     </div>

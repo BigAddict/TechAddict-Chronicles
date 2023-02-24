@@ -2,9 +2,11 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404
-from django.views.generic import View, ListView, DetailView
+from django.shortcuts import get_object_or_404, render, redirect
+from django.urls import reverse
+from django.views.generic import View, ListView
 
+from .forms import UserUpdateForm, ProfileUpdateForm
 from .models import Bookmark
 from blog.models import Post
 
@@ -27,6 +29,32 @@ class ProfileView(ListView):
         context = super().get_context_data(**kwargs)
         context["author"] = self.author
         return context
+
+
+class UpdateProfileView(LoginRequiredMixin, UserPassesTestMixin, View):
+    """Show profile update form and handle the process."""
+
+    def get(self, request, **kwargs):
+        context = {
+            "user_form": UserUpdateForm(instance=request.user),
+            "profile_form": ProfileUpdateForm(instance=request.user.profile),
+        }
+        return render(request, "user/profile_update.html", context)
+
+    def post(self, request, **kwargs):
+        user_form = UserUpdateForm(request.POST, instance=request.user)
+        profile_form = ProfileUpdateForm(request.POST, instance=request.user.profile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, "Your profile has been updated.")
+            return redirect(
+                to=reverse("accounts:profile", args=(self.request.user.username,))
+            )
+
+    def test_func(self):
+        self.author = get_object_or_404(User, username=self.kwargs.get("username"))
+        return self.request.user == self.author
 
 
 class BookmarkView(View):
