@@ -70,7 +70,7 @@
           <div class="about-author d-flex flex-column">
             <span class="d-block text-muted small">WRITTEN BY</span>
             <div class="d-flex align-items-end justify-content-md-between mb-1">
-              <a href="#" class="author-link my-0 me-2">{{ post.author.get_full_name }} Author Name</a>
+              <a href="#" class="author-link my-0 me-2">{{ post.author.get_full_name }}</a>
               {% if request.user != post.author %}
               {% if request.user in post.author.profile.followers %}
               <button class="btn btn-sm btn-outline-primary follow" value="{{ post.author.pk }}">Following</button>

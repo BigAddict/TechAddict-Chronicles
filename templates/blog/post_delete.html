@@ -17,13 +17,7 @@
           <form method="post"> {% csrf_token %}
             <div class="mt-4">
               <button class="btn btn-danger me-2" type="submit">Yes, Delete </button>
-              {% if post.status == 0 %}
-              <!-- It was draft post, return back to draft page -->
-              <a class="btn btn-secondary" href="#">Cancel
-              </a>
-              {% else %}
-              <a class="btn btn-secondary" href="{% url 'blog:post_detail' post.slug %}">Cancel </a>
-              {% endif %}
+              <a class="btn btn-secondary" href="{{request.META.HTTP_REFERER|escape}}">Cancel</a>
             </div>
           </form>
         </div>

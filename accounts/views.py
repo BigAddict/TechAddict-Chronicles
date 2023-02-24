@@ -1,11 +1,15 @@
 from django.contrib import messages
+from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.views.generic import View, ListView
 
-from .models import User, Bookmark
+from .models import Bookmark
 from blog.models import Post
+
+
+User = get_user_model()
 
 
 class BookmarkView(View):
@@ -46,3 +50,16 @@ class SavedPostView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     def test_func(self):
         self.user = get_object_or_404(User, username=self.kwargs.get("username"))
         return self.request.user == self.user
+
+
+class DraftPostView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    template_name = "user/draft_post.html"
+    context_object_name = "draft_posts"
+    paginate_by = 10
+
+    def get_queryset(self):
+        return Post.objects.filter(author=self.request.user, status=0)
+
+    def test_func(self):
+        user = get_object_or_404(User, username=self.kwargs.get("username"))
+        return self.request.user == user

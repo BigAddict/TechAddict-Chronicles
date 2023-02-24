@@ -17,12 +17,7 @@
 
               <div class="mt-5">
                 <button class="btn btn-primary me-2" type="submit" id="submitBtn">Update</button>
-                {% if post.status == 0 %}
-                <!-- It was draft post, return back to draft page -->
-                <a class="btn btn-secondary" href="#">Cancel</a>
-                {% else %}
-                <a class="btn btn-secondary" href="{% url 'blog:post_detail' post.slug %}">Cancel </a>
-                {% endif %}
+                <a class="btn btn-secondary" href="{{request.META.HTTP_REFERER|escape}}">Cancel </a>
               </div>
             </form>
           </div>

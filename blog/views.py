@@ -62,7 +62,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class PostDetailView(DetailView):
+class PostDetailView(UserPassesTestMixin, DetailView):
     model = Post
     context_object_name = "post"
     template_name = "blog/post_detail.html"
@@ -71,6 +71,12 @@ class PostDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context["saved_posts"] = get_saved_posts(self.request.user)
         return context
+
+    def test_func(self):
+        if self.get_object().status == 0:
+            # drafts can be seen by their author only
+            return self.get_object().author == self.request.user
+        return True
 
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
