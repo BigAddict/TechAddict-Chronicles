@@ -42,21 +42,19 @@
 
   {% endblock javascript %}
 
-
 </head>
 
-<body>
-
+<body style="overflow-x: hidden;">
 
   <div class="container-fuild vh-100 d-flex flex-column">
 
     {% include "navbar.html" %}
 
-    <div class="row">
-      <div class="container col-lg-10" id="message">
+    <div class="row bg-light">
+      <div class="container col-lg-6" id="message">
         {% if messages %}
         {% for message in messages %}
-        <div class="alert alert-dismissible {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+        <div class="mt-2 alert alert-dismissible {% if message.tags %}alert-{{ message.tags }}{% endif %}">
           {{ message }}
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>

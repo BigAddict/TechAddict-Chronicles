@@ -29,8 +29,7 @@
             </div>
             <p class="card-text mt-1 text-muted">{{ post.content|truncatechars_html:130|safe }}</p>
             <div class="d-flex justify-content-between">
-              <a href="{% url 'blog:post_detail' post.slug %}" class="read-more">Read more
-                <span>&rarr;</span></a>
+              <a href="{% url 'blog:post_detail' post.slug %}">Preview</a>
 
               <div>
                 <a href="{% url 'blog:post_update' post.slug %}" title="Edit post"><i class="far fa-edit"></i></a>
@@ -62,14 +61,4 @@
   integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
   crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-<script>
-  // Change active nav element dynamically based on the URL
-  $(document).ready(function () {
-    const currentUrl = location.pathname;
-    $(".navbar-nav li").find("a.active").removeClass("active");
-    $(".navbar-nav li").find("a.active").removeAttr("aria-current");
-    $('.navbar-nav li a[href="' + currentUrl + '"]').addClass('active');
-    $('.navbar-nav li a[href="' + currentUrl + '"]').attr("aria-current", "page");
-  });
-</script>
 {% endblock %}

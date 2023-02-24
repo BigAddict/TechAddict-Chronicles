@@ -29,7 +29,8 @@
                     class="fa-regular fa-pen-to-square me-2"></i>Draft</a></li>
               <li><a class="dropdown-item" href="{% url 'accounts:saved_post' user.username %}"><i
                     class="fa-regular fa-bookmark me-2"></i>Saved</a></li>
-              <li><a class="dropdown-item" href="#"><i class="fa-regular fa-user me-2"></i>Profile</a></li>
+              <li><a class="dropdown-item" href="{% url 'accounts:profile' user.username %}"><i
+                    class="fa-regular fa-user me-2"></i>Profile</a></li>
               <li>
                 <hr class="dropdown-divider">
               </li>

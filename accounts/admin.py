@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth import get_user_model
 
 from .forms import UserAdminChangeForm, UserAdminCreationForm
-from .models import Bookmark
+from .models import Bookmark, Profile
 
 User = get_user_model()
 
@@ -34,3 +34,7 @@ class UserAdmin(admin.ModelAdmin):
 @admin.register(Bookmark)
 class BookmarkAdmin(admin.ModelAdmin):
     list_display = ["user", "post", "modified_at"]
+
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ["user", "title"]

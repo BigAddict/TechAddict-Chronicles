@@ -3,13 +3,30 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
-from django.views.generic import View, ListView
+from django.views.generic import View, ListView, DetailView
 
 from .models import Bookmark
 from blog.models import Post
 
 
 User = get_user_model()
+
+
+class ProfileView(ListView):
+    """Show user profile page"""
+
+    context_object_name = "author_posts"
+    template_name = "user/profile.html"
+    paginate_by = 10
+
+    def get_queryset(self):
+        self.author = get_object_or_404(User, username=self.kwargs.get("username"))
+        return Post.objects.filter(author=self.author, status=1)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["author"] = self.author
+        return context
 
 
 class BookmarkView(View):

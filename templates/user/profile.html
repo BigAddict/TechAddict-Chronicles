@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% load static %}
+{% load post_read_time %}
+
+{% block title %} Profile {% endblock %}
+
+{% block content %}
+
+<div class="container-fluid bg-light">
+  <div class="row">
+    <div class="d-flex flex-column align-items-center py-4">
+      <div class="flex-grow-1 pt-2">
+        <div class="d-flex align-items-center justify-content-center justify-content-md-start mb-0">
+          <span class="me-2 fs-4">{{ author.get_full_name }}</span>
+          {% if request.user == author %}
+          <a href="#" title="Update your profile"><i class="fas fa-user-edit ms-2"></i></a>
+          {% elif request.user in author.profile.followers %}
+          <button class="btn btn-sm btn-outline-primary follow" value="{{ user.pk }}">Following</button>
+          {% else %}
+          <button class="btn btn-sm btn-primary follow" value="{{ user.pk }}">Follow</button>
+          {% endif %}
+        </div>
+        <p class="text-md-start text-center">
+          {{ author.profile.title }}
+        </p>
+        <div class="text-muted text-md-start text-center mt-2">
+          <span>{{ author.profile.followers|length }} Followers</span><span
+            class="dot"></span><span>{{ author.profile.following|length }}
+            Following</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row px-md-5 pt-5">
+    <div class="col-lg-8">
+      <!-- Author posts -->
+      {% if author_posts|length > 0 %}
+      <p class="mb-5">Latest stories by <strong>{{author.get_full_name}}</strong></p>
+      {% for post in author_posts %}
+      <div class="">
+        <div class="mycard">
+          <div class="d-flex flex-column">
+            <h4 class="card-title">
+              <a href="{% url 'blog:post_detail' post.slug %}" class="mb-2 lh-sm">{{ post.title }}</a>
+            </h4>
+            <p class="card-text mb-2 lh-base">
+              {{ post.content|truncatechars_html:130|safe }}
+            </p>
+          </div>
+          <div class="mb-0 text-muted d-flex align-items-end align-items-md-center justify-content-between">
+            <div>
+              <a class="d-none d-md-inline category-btn"
+                href="{% url 'blog:category' post.category.slug %}">{{ post.category }}</a>
+              <span>{{ post.last_update|date:"M d" }}</span><span
+                class="dot"></span><span>{{ post.content|readtime }}</span>
+            </div>
+            {% if request.user == post.author %}
+            <div class="action">
+              <a href="{% url 'blog:post_update' post.slug %}" title="Edit post"><i class="far fa-edit"></i></a>
+              <a href="{% url 'blog:post_delete' post.slug %}" class="ms-1" title="Delete post"><i
+                  class="fas fa-trash"></i></a>
+            </div>
+            {% else %}
+            {% csrf_token %}
+            <button class="bookmark" value="{{ post.pk}}" title="Bookmark story">
+              <i class="far fa-bookmark"></i>
+            </button>
+            {% endif %}
+          </div>
+        </div>
+        <!-- End author post -->
+        <hr class="my-3" />
+      </div>
+      {% endfor %}
+      <br>
+      <!-- Pagination -->
+      {% if posts|length > 10 %}
+      {% include "pagination.html" %}
+      {% endif %}
+      <!-- End pagination -->
+
+      <!-- Author has not published posts -->
+      {% else %}
+      <div class="col-12 col-lg-7 mx-auto">
+        <p>Sorry! {{ user.first_name }} doesn't have any posts published yet.</p>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Sidebar -->
+    <div class="col-lg-4 d-none d-lg-block">
+      <div class="position-sticky" style="top: 2rem">
+        <div class="p-4">
+          <h4>About me</h4>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+  integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+{% endblock %}

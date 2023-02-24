@@ -24,7 +24,7 @@
               <a href="{% url 'blog:post_detail' post.slug %}">{{ post.title|truncatechars:80 }}</a>
             </h4>
             <div class="small text-muted">
-              <a href="#" class="author-link">{{ post.author.get_full_name }}</a>
+              <a href="{% url 'accounts:profile' post.author.username %}" class="author-link">{{ post.author.get_full_name }}</a>
               <a class="category" href="{% url 'blog:category' post.category.slug %}"></a>
               <span>&nbsp;|&nbsp;</span>
               <span>{{ post.modified_at|date:"M d" }}</span><span

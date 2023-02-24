@@ -12,6 +12,17 @@ class User(AbstractUser):
     pass
 
 
+class Profile(models.Model):
+    """Profile of the user besides."""
+
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    title = models.CharField(max_length=150, blank=True)
+    about = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"{self.user}'s profile"
+
+
 class Bookmark(models.Model):
     """Bookmark posts for later reading."""
 
