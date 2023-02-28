@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.views.generic import View, ListView
 
 from .forms import UserUpdateForm, ProfileUpdateForm
-from .models import Bookmark, UserFollowing
+from .models import Bookmark, Like, UserFollowing
 from blog.models import Post
 
 
@@ -57,29 +57,6 @@ class UpdateProfileView(LoginRequiredMixin, UserPassesTestMixin, View):
         return self.request.user == self.author
 
 
-class BookmarkView(View):
-    """Handle bookmarking post using ajax calls."""
-
-    def post(self, request):
-        user = self.request.user
-        post_id = request.POST.get("post_id")
-
-        if not user.is_authenticated:
-            messages.warning(self.request, "Login to your account to bookmark posts.")
-            return JsonResponse({"is_saved": False}, status=401)
-
-        is_saved = False  # initial assumption
-        selected_post = Post.objects.get(pk=post_id)
-        bookmark = Bookmark.objects.filter(user=user, post=selected_post).first()
-        if bookmark:
-            bookmark.delete()  # was already saved, unsave now
-        else:
-            Bookmark.objects.create(user=user, post=selected_post)
-            is_saved = True
-
-        return JsonResponse({"is_saved": is_saved, "post_id": post_id}, status=200)
-
-
 class SavedPostView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     """Show list of bookmarked posts."""
 
@@ -108,6 +85,53 @@ class DraftPostView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return self.request.user == user
 
 
+class BookmarkView(View):
+    """Handle bookmarking post using ajax calls."""
+
+    def post(self, request):
+        user = self.request.user
+        post_id = request.POST.get("post_id")
+
+        if not user.is_authenticated:
+            messages.warning(self.request, "Login to your account to bookmark posts.")
+            return JsonResponse({"is_saved": False}, status=401)
+
+        selected_post = Post.objects.get(pk=post_id)
+        bookmark, created = Bookmark.objects.get_or_create(
+            user=user, post=selected_post
+        )
+        if created:
+            is_saved = True  # saved now
+        else:
+            is_saved = False  # was already saved, unsave now
+            bookmark.delete()
+
+        return JsonResponse({"is_saved": is_saved, "post_id": post_id}, status=200)
+
+
+class LikeView(View):
+    """Handle like and unlike posts using ajax calls."""
+
+    def post(self, request):
+        user = self.request.user
+        post_id = request.POST.get("post_id")
+
+        if not user.is_authenticated:
+            messages.info(self.request, "Login to your account to like posts.")
+            return JsonResponse(data={"is_liked": False}, status=401)
+
+        selected_post = Post.objects.get(pk=post_id)
+        like, created = Like.objects.get_or_create(user=user, post=selected_post)
+        if created:
+            is_liked = True  # liked the post now
+        else:
+            is_liked = False  # was already liked, unlike now
+            like.delete()
+
+        data = {"is_liked": is_liked, "likes_count": selected_post.like_set.count()}
+        return JsonResponse(data, status=200)
+
+
 class FollowView(View):
     """Handle follow/unfollow activity."""
 
@@ -118,10 +142,8 @@ class FollowView(View):
             return JsonResponse({"is_authenticated": False}, status=401)
 
         # target user to follow or unfollow
+        # TODO: what if target user not found or similar to current user?
         target_user = User.objects.get(pk=request.POST["user_id"])
-
-        # all users followed by current user (following wrt to the user)
-        following = [f.user_following for f in current_user.following.all()]
 
         user_followed, created = UserFollowing.objects.get_or_create(
             user=current_user, user_following=target_user
@@ -131,13 +153,5 @@ class FollowView(View):
         else:
             is_following = False
             user_followed.delete()  # was already following, unfollow now
-
-        # if not target_user in following:
-        #     UserFollowing.objects.create(user=current_user, user_following=target_user)
-        #     is_following = True
-        # else:
-        #     UserFollowing.objects.filter(
-        #         user=current_user, user_following=target_user
-        #     ).delete()
 
         return JsonResponse({"is_following": is_following}, status=200)

@@ -49,9 +49,12 @@
             <div class="col-8 d-flex">
               <div class="me-3 react">
                 {% csrf_token %}
-                <button class="d-flex upvote" value="{{ post.pk }}">
-                  <span class="text-muted"><i
-                      class="far fa-heart text-primary me-2"></i>{{ post.like_set.count }}</span>
+                <button class="d-flex align-items-center text-muted like" value="{{ post.pk }}">
+                  {% if post in request.user.profile.likes %}
+                  <i class="fas fa-heart text-primary me-2"></i>{{ post.like_set.count }}
+                  {% else %}
+                  <i class="far fa-heart text-primary me-2"></i>{{ post.like_set.count }}
+                  {% endif %}
                 </button>
               </div>
               <a href="#" class="text-muted" title="Commnets"><i class="far fa-comment-dots me-1"></i>

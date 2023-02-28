@@ -59,4 +59,33 @@ $(document).ready(function () {
         })
     });
 
+    // AJAX request to like/unlike posts
+    $(".like").off("click").on("click", function () {
+        const $this = $(this); // clicked button
+        const post_id = $this.val();
+
+        $.ajax({
+            method: "POST",
+            url: "/accounts/like/",
+            data: {
+                post_id: post_id,
+                csrfmiddlewaretoken: csrf_token,
+            },
+            statusCode: {
+                200: function (response) {
+                    const likes = response["likes_count"]
+                    if (response["is_liked"] == true) {
+                        $this.html('<i class="fas fa-heart text-primary me-2"></i>' + likes);
+                    } else {
+                        $this.html('<i class="far fa-heart text-primary me-2"></i>' + likes);
+                    }
+
+                },
+                401: function (response) {
+                    window.location.href = "/accounts/login/";
+                }
+            }
+        })
+    })
+
 })

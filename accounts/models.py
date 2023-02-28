@@ -22,13 +22,18 @@ class Profile(models.Model):
 
     @property
     def following(self):
-        """All users followed by this user (following wrt the user)."""
+        """All users followed by a user (following wrt the user)."""
         return [f.user_following for f in self.user.following.all()]
 
     @property
     def followers(self):
-        """All users following this user (follower wrt the user)."""
+        """All users following a user (follower wrt the user)."""
         return [f.user for f in self.user.followers.all()]
+
+    @property
+    def likes(self):
+        """All posts liked by a user."""
+        return [like.post for like in self.user.likes.all()]
 
 
 class Bookmark(models.Model):
@@ -42,6 +47,21 @@ class Bookmark(models.Model):
         ordering = ["-modified_at"]
         constraints = [
             models.UniqueConstraint(fields=["user", "post"], name="unique_bookmark")
+        ]
+
+
+class Like(models.Model):
+    """Liked posts that are interesting."""
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="likes"
+    )
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["user", "post"], name="unique_like")
         ]
 
 
@@ -59,6 +79,7 @@ class UserFollowing(models.Model):
     user_following = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="followers"
     )
+    created_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         constraints = [
