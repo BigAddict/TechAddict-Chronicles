@@ -1,11 +1,12 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import View, ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
-from .models import Post, Category
+from .forms import CommentForm
+from .models import Post, Category, Comment
 
 
 def get_saved_posts(user):
@@ -118,3 +119,37 @@ class CategoryView(ListView):
         context["popular_categories"] = Category.objects.all()[:6]
         context["saved_posts"] = get_saved_posts(self.request.user)
         return context
+
+
+class CommentView(View):
+    def get(self, request, *args, **kwargs):
+        comments = Comment.objects.filter(post__slug=kwargs.get("slug"))
+        selected_post = get_object_or_404(Post, slug=kwargs.get("slug"))
+        context = {
+            "comment_form": CommentForm(),
+            "comments": comments,
+            "post": selected_post,
+        }
+        return render(request, "blog/comment.html", context)
+
+    def post(self, request, *args, **kwargs):
+        if not self.request.user.is_authenticated:
+            return messages.warning(
+                request, "Login to your account to comment on posts."
+            )
+
+        selected_post = get_object_or_404(Post, slug=kwargs.get("slug"))
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment_form.instance.author = request.user
+            comment_form.instance.post = selected_post
+            comment_form.save()
+            messages.info(request, "Your comment has been saved.")
+
+        comments = Comment.objects.filter(post__slug=kwargs.get("slug"))
+        context = {
+            "comment_form": CommentForm(),
+            "comments": comments,
+            "post": selected_post,
+        }
+        return render(request, "blog/comment.html", context)

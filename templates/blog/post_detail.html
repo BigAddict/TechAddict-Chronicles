@@ -57,7 +57,8 @@
                   {% endif %}
                 </button>
               </div>
-              <a href="#" class="text-muted" title="Commnets"><i class="far fa-comment-dots me-1"></i>
+              <a href="{% url 'blog:comment' post.slug %}" class="text-muted" title="Commnets"><i
+                  class="far fa-comment-dots me-1"></i>
                 <span>{{ post.comments.count }}</span></a>
             </div>
             <div class="col-4 d-flex justify-content-end">
