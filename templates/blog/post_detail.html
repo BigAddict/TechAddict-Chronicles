@@ -74,9 +74,10 @@
                 class="author-link my-0 me-2">{{ post.author.get_full_name }}</a>
               {% if request.user != post.author %}
               {% if request.user in post.author.profile.followers %}
-              <button class="btn btn-sm btn-outline-primary follow" value="{{ post.author.pk }}">Following</button>
+              <button type="button" class="btn btn-sm btn-outline-primary follow"
+                value="{{ post.author.pk }}">Following</button>
               {% else %}
-              <button class="btn btn-sm btn-primary follow" value="{{ post.author.pk }}">Follow</button>
+              <button type="button" class="btn btn-sm btn-primary follow" value="{{ post.author.pk }}">Follow</button>
               {% endif %}
               {% endif %}
             </div>

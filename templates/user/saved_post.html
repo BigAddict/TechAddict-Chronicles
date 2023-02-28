@@ -21,7 +21,7 @@
               <a href="{% url 'blog:post_detail' bookmark.post.slug %}">{{ bookmark.post.title|truncatechars:80 }}</a>
             </h4>
             <div class="small text-muted">
-              <a href="{% url 'accounts:profile' post.author.username %}"
+              <a href="{% url 'accounts:profile' bookmark.post.author.username %}"
                 class="author-link">{{ bookmark.post.author.get_full_name }}</a>
               <a class="category" href="{% url 'blog:category' bookmark.post.category.slug %}">in
                 <strong>{{ bookmark.post.category }}</strong></a>

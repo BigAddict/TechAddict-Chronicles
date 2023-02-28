@@ -16,9 +16,9 @@
           <a href="{% url 'accounts:profile_update' author.username %}" title="Update your profile"><i
               class="fas fa-user-edit ms-2"></i></a>
           {% elif request.user in author.profile.followers %}
-          <button class="btn btn-sm btn-outline-primary follow" value="{{ user.pk }}">Following</button>
+          <button type="button" class="btn btn-sm btn-outline-primary follow" value="{{ author.pk }}">Following</button>
           {% else %}
-          <button class="btn btn-sm btn-primary follow" value="{{ user.pk }}">Follow</button>
+          <button type="button" class="btn btn-sm btn-primary follow" value="{{ author.pk }}">Follow</button>
           {% endif %}
         </div>
         <p class="text-md-start text-center">
@@ -53,8 +53,7 @@
           </div>
           <div class="mb-0 text-muted d-flex align-items-end align-items-md-center justify-content-between">
             <div>
-              <a class="d-none d-md-inline category-btn"
-                href="{% url 'blog:category' post.category.slug %}">{{ post.category }}</a>
+              <a class="category-btn" href="{% url 'blog:category' post.category.slug %}">{{ post.category }}</a>
               <span>{{ post.last_update|date:"M d" }}</span><span
                 class="dot"></span><span>{{ post.content|readtime }}</span>
             </div>

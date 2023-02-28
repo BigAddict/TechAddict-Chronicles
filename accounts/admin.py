@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth import get_user_model
 
 from .forms import UserAdminChangeForm, UserAdminCreationForm
-from .models import Bookmark, Profile
+from .models import Bookmark, Profile, UserFollowing
 
 User = get_user_model()
 
@@ -31,10 +31,17 @@ class UserAdmin(admin.ModelAdmin):
     list_display = ["email", "first_name", "last_name", "is_superuser"]
     search_fields = ["email", "first_name", "last_name"]
 
+
 @admin.register(Bookmark)
 class BookmarkAdmin(admin.ModelAdmin):
     list_display = ["user", "post", "modified_at"]
 
+
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ["user", "title"]
+
+
+@admin.register(UserFollowing)
+class UserFollowingAdmin(admin.ModelAdmin):
+    list_display = ["user", "user_following"]
