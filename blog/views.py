@@ -111,7 +111,8 @@ class CategoryView(ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return Category.objects.get(slug=self.kwargs["slug"]).post_set.all()
+        category = Category.objects.get(slug=self.kwargs["slug"])
+        return category.post_set.all().filter(status=1)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -144,7 +145,7 @@ class CommentView(View):
             comment_form.instance.author = request.user
             comment_form.instance.post = selected_post
             comment_form.save()
-            messages.info(request, "Your comment has been saved.")
+            messages.info(request, "Your comment has been published.")
 
         comments = Comment.objects.filter(post__slug=kwargs.get("slug"))
         context = {
