@@ -40,7 +40,7 @@
         <div class="d-flex justify-content-between">
           <div class="small">
             <a href="{% url 'accounts:profile' comment.author.username %}" class="text-dark fw-bold">
-              {{ comment.author.get_full_name }}</a>
+              {{ comment.author.get_display_name }}</a>
             <span class="dot"></span><span class="text-muted">{{ comment.modified_at|since_posted }}</span>
           </div>
         </div>

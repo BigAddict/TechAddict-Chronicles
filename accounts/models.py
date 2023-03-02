@@ -9,7 +9,12 @@ class User(AbstractUser):
     """Custom user model"""
 
     # additional user fields goes here
-    pass
+    @property
+    def get_display_name(self):
+        if self.first_name:
+            return f"{self.first_name} {self.last_name}"
+        else:
+            return self.username
 
 
 class Profile(models.Model):

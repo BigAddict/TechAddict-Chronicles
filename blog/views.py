@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import View, ListView, DetailView
@@ -32,7 +33,7 @@ class HomePageView(View):
 
 
 class PostListView(ListView):
-    template_name = "blog/index.html"
+    template_name = "blog/post_list.html"
     context_object_name = "posts"
     paginate_by = 10
 
@@ -118,6 +119,38 @@ class CategoryView(ListView):
         context = super().get_context_data(**kwargs)
         context["category"] = Category.objects.get(slug=self.kwargs["slug"])
         context["popular_categories"] = Category.objects.all()[:6]
+        context["saved_posts"] = get_saved_posts(self.request.user)
+        return context
+
+
+class SearchResultView(ListView):
+    model = Post
+    context_object_name = "search_results"
+    template_name = "blog/search_result.html"
+    paginate_by = 10
+
+    def get_queryset(self):
+        self.user_input = self.request.GET.get("q", "")
+        if not self.user_input:
+            # TODO: redirect to stories page on empty search
+            return Post.objects.all()
+
+        query = SearchQuery(self.user_input)
+        vector = SearchVector(
+            "title", "content", "category__name", "author__first_name"
+        )
+        search_results = Post.objects.annotate(
+            search=vector, rank=SearchRank(vector, query)
+        )
+        search_results = search_results.filter(search=query).order_by("-rank")
+        return search_results
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        queryset = self.get_queryset()
+
+        context["query"] = self.user_input
+        context["total"] = len(queryset)
         context["saved_posts"] = get_saved_posts(self.request.user)
         return context
 

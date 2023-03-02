@@ -11,7 +11,7 @@
     <div class="d-flex flex-column align-items-center py-4">
       <div class="flex-grow-1 pt-2">
         <div class="d-flex align-items-center justify-content-center justify-content-md-start mb-0">
-          <span class="me-2 fs-4">{{ author.get_full_name }}</span>
+          <span class="me-2 fs-4">{{ author.get_display_name }}</span>
           {% if request.user == author %}
           <a href="{% url 'accounts:profile_update' author.username %}" title="Update your profile"><i
               class="fas fa-user-edit ms-2"></i></a>
@@ -39,7 +39,7 @@
     <div class="col-lg-8">
       <!-- Author posts -->
       {% if author_posts|length > 0 %}
-      <p class="mb-5">Latest stories by <strong>{{author.get_full_name}}</strong></p>
+      <p class="mb-5">Latest stories by <strong>{{author.get_display_name}}</strong></p>
       {% for post in author_posts %}
       <div class="">
         <div class="mycard">
@@ -101,6 +101,8 @@
     </div>
   </div>
 </div>
+
+{% include "footer.html" %}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
   integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="

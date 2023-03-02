@@ -6,3 +6,4 @@ django-crispy-forms==1.14.0
 readtime==2.0.0
 django-allauth==0.52.0
 django-ckeditor==6.5.1
+psycopg2==2.9.5
