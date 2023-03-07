@@ -131,10 +131,6 @@ class SearchResultView(ListView):
 
     def get_queryset(self):
         self.user_input = self.request.GET.get("q", "")
-        if not self.user_input:
-            # TODO: redirect to stories page on empty search
-            return Post.objects.all()
-
         query = SearchQuery(self.user_input)
         vector = SearchVector(
             "title", "content", "category__name", "author__first_name"

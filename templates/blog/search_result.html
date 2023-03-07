@@ -12,7 +12,7 @@
     <div class="row">
       <div class="col-lg-8">
         <h5 class="mb-2">Search results</h5>
-        <em>{{total}} results found matching your search.</em>
+        <span>{{total}} results found matching your search: <strong>{{query}}</strong></span>
 
         {% for post in search_results %}
         <div class="card mb-4 mt-4">
