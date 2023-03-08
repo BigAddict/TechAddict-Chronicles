@@ -243,3 +243,5 @@ DATABASES["default"].update(db_from_env)
 
 
 CSRF_TRUSTED_ORIGINS = ['https://*.railway.app']
+
+ADMIN_URL = os.getenv("ADMIN_URL", "admin")
