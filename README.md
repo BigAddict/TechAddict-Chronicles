@@ -1,6 +1,6 @@
 <a name="readme-top"></a>
 
-<div align="center" style="margin-bottom: 15px;">
+<div align="center">
   <h3 align="center">Tomar</h3>
 
   <p align="center">
@@ -33,6 +33,7 @@ Use the following credentials to test the website without creating an account
 - Follower and Following 
 - Search functionality
 - Comment on posts
+- Rich text editor (CKEditor)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
