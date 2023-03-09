@@ -96,10 +96,28 @@
       </article>
     </div>
   </div>
-  <div class="related mt-5">
-    <h3>More from Tomar</h3>
-    <hr class="my-4" />
-    <!-- Related or popular posts goes here -->
+  <div class="my-5">&nbsp;</div>
+  <!-- Related or popular posts -->
+  <div class="mt-5 related">
+    <h5 class="mb-4">More from Tomar</h5>
+    <div class="d-flex flex-column flex-lg-row">
+      {% for post in related_posts %}
+      <div class="card mb-4 me-4 col-lg-4">
+        <div class="card-body d-flex flex-column justify-content-between">
+          <div>
+            <h5 class="card-title mb-0">
+              <a href="{% url 'blog:post_detail' post.slug %}">{{ post.title|truncatechars:40 }}</a>
+            </h5>
+            <span class="card-text mt-2 text-muted">{{ post.content|truncatechars_html:80|safe }}</span>
+          </div>
+          <span>
+            <a class="small text-muted category" href="{% url 'blog:category' post.category.slug %}">in
+              <strong>{{ post.category }}</strong></a>
+          </span>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
   </div>
 </div>
 

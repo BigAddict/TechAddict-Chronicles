@@ -71,6 +71,10 @@ class PostDetailView(UserPassesTestMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # 3 related/popular posts to the current post
+        current_post_slug = self.kwargs.get("slug")
+        related_posts = Post.objects.all().exclude(slug=current_post_slug)[:3]
+        context["related_posts"] = related_posts
         context["saved_posts"] = get_saved_posts(self.request.user)
         return context
 
