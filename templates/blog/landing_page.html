@@ -17,7 +17,7 @@
         build a community that grow together.
       </p>
       <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-        <a href="#" class="btn btn-outline-primary btn-lg px-4 me-md-2">Join now</a>
+        <a href="{% url 'account_signup' %}" class="btn btn-outline-primary btn-lg px-4 me-md-2">Join now</a>
       </div>
     </div>
     <div class="col-lg-5 d-none d-lg-block">
@@ -61,7 +61,7 @@
 <div class="container">
   <div class="row">
     <div class="col-md-7 mx-auto">
-      <h2 class="mb-4">Recommended</h2>
+      <h5 class="mb-4">Recommended</h5>
       {% for post in featured_posts %}
       <div class="card mb-4">
         <div class="card-body">
@@ -69,7 +69,8 @@
             <a href="{% url 'blog:post_detail' post.slug %}">{{ post.title|truncatechars:80 }}</a>
           </h4>
           <div class="small text-muted">
-            <a href="{% url 'accounts:profile' post.author.username %}" class="author-link">{{ post.author.get_display_name }}</a>
+            <a href="{% url 'accounts:profile' post.author.username %}"
+              class="author-link">{{ post.author.get_display_name }}</a>
             <a class="d-none d-md-inline category" href="{% url 'blog:category' post.category.slug %}">in
               <strong>{{ post.category }}</strong></a>
             <span>&nbsp;|&nbsp;</span>
@@ -104,10 +105,9 @@
     </div>
   </div>
 </div>
-<div class="container px-md-5 my-5 pb-5">
+<div class="container-fluid my-5 py-5">
   <div class="d-flex align-items-center justify-content-center">
-    <a href="{% url 'blog:post_list' %}" class="btn btn-primary fs-5" id="arrowonhover">All Stories
-      <span>&rarr;</span></a>
+    <a href="{% url 'blog:post_list' %}" class="btn btn-primary fs-5">All Stories &rarr;</a>
   </div>
 </div>
 

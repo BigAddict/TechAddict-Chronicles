@@ -161,14 +161,6 @@ a {
   margin: 0 0 1.5rem 0;
 }
 
-#arrowonhover span {
-  display: none;
-}
-
-#arrowonhover:hover span {
-  display: inline-block;
-}
-
 #div_id_content {
   display: flex;
   flex-direction: column;
