@@ -15,10 +15,12 @@ import os
 from dotenv import load_dotenv
 from pathlib import Path
 
-load_dotenv()  # take environment variables from .env file
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
+# take environment variables from .env file
+dotenv_path = os.path.join(BASE_DIR, ".env")
+load_dotenv(dotenv_path)
 
 
 # Quick-start development settings - unsuitable for production
@@ -28,9 +30,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DJANGO_DEBUG", False)
+DEBUG = True
 
-ALLOWED_HOSTS = [".railway.app", "127.0.0.1"]
+ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -61,7 +63,6 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -71,6 +72,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "tomar.urls"
+
+AUTH_USER_MODEL = "accounts.User"
 
 TEMPLATES = [
     {
@@ -96,24 +99,12 @@ WSGI_APPLICATION = "tomar.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": BASE_DIR / "db.sqlite3",
-#     }
-# }
-
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": os.environ["PGDATABASE"],
-        "USER": os.environ["PGUSER"],
-        "PASSWORD": os.environ["PGPASSWORD"],
-        "HOST": os.environ["PGHOST"],
-        "PORT": os.environ["PGPORT"],
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -145,26 +136,14 @@ USE_I18N = True
 
 USE_TZ = True
 
-AUTH_USER_MODEL = "accounts.User"
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
-
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
-
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # https://django-crispy-forms.readthedocs.io/en/latest/install.html
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -180,7 +159,6 @@ AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend",
 )
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
@@ -190,12 +168,6 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 
-DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
-EMAIL_HOST = "smtp.sendgrid.net"
-EMAIL_PORT = 587
-EMAIL_HOST_USER = os.getenv("SENDGRID_USER")
-EMAIL_HOST_PASSWORD = os.getenv("SENDGRID_API_KEY")
-EMAIL_USE_TLS = True
 
 # django-ckeditor
 # https://github.com/django-ckeditor/django-ckeditor#installation
@@ -234,14 +206,5 @@ CKEDITOR_CONFIGS = {
         "width": "100%",
     }
 }
-
-# Update database configuration from $DATABASE_URL.
-import dj_database_url
-
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES["default"].update(db_from_env)
-
-
-CSRF_TRUSTED_ORIGINS = ['https://*.railway.app']
 
 ADMIN_URL = os.getenv("ADMIN_URL", "admin")
