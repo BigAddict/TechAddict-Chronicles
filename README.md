@@ -23,8 +23,6 @@ Use the following credentials to test the website without creating an account
 
 
 ## Features
-- Email verification
-- Email only sign up
 - Profile for users
 - Bookmark and Like posts 
 - Draft and Published posts
@@ -56,8 +54,6 @@ To get a local copy up and running follow these simple steps.
 ### Prerequisites
 
 * Django
-* PostgreSQL
-* SendGrid API key
 
 ### Installation
 
@@ -65,38 +61,27 @@ To get a local copy up and running follow these simple steps.
    ```
    git clone https://github.com/balewgize/tomar.git
    ```
-2. Install required packages
+2. Install required packages (virtual environments recommended)
    ```
-   pip install -r requirements.txt
+   pip install -r requirements/local.txt
    ```
-3. Provide credentials in *.env*  (create a file named .env inside **tomar** folder - project root directory)
+3. Provide credentials in *.env* (example in .env.dev file)
    ```
     DJANGO_SECRET_KEY=
-    DJANGO_DEBUG=True
-
-    DEFAULT_FROM_EMAIL=
-    SENDGRID_USER=
-    SENDGRID_API_KEY=
-
-    PGDATABASE=
-    PGUSER=
-    PGPASSWORD=
-    PGHOST=
-    PGPORT=
-
-    ADMIN_URL=
    ```
-4. Apply migrations
+4. Specify settings to use
+   ```
+   export DJANGO_SETTINGS_MODULE=tomar.settings.local
+   ```
+5. Apply migrations and start the server
     ```
     python manage.py migrate
-    ```
-5. Create super user and start the server
-    ```
-    python manage.py createsuperuser
     ```
     ```
     python manage.py runserver
     ```
+6. Goto http://127.0.0.1:8000 on your browser.
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 Thanks!
