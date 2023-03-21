@@ -8,7 +8,7 @@ from tomar.settings.base import *
 dotenv_path = os.path.join(BASE_DIR, ".env.production")
 load_dotenv(dotenv_path)
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [".railway.app", "127.0.0.1"]
 

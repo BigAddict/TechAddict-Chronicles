@@ -3,7 +3,7 @@ from django.conf import settings
 from django.db import models
 from django.urls import reverse
 
-from common import utils
+from utils import utils
 
 
 class Category(models.Model):
