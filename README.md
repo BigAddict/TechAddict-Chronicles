@@ -11,7 +11,7 @@
   </p>
 </div>
 
-Use the following credentials to test the website without creating an account
+Use the following credentials to test the website without creating an account.
 
 - Email: guest@tomar.com
 - Password: guest
@@ -57,11 +57,17 @@ To get a local copy up and running follow these simple steps.
 
 ### Installation
 
-1. Clone the repo
+1. Clone the repo and navigate to ```tomar``` directory
    ```
    git clone https://github.com/balewgize/tomar.git
    ```
+   ```
+   cd tomar
+   ```
 2. Install required packages (virtual environments recommended)
+   ```
+   python3 -m venv venv && source venv/bin/activate
+   ```
    ```
    pip install -r requirements/local.txt
    ```
@@ -69,9 +75,13 @@ To get a local copy up and running follow these simple steps.
    ```
     DJANGO_SECRET_KEY=
    ```
-4. Specify settings to use
+   Use the following command to generate random *SECRET_KEY*
    ```
-   export DJANGO_SETTINGS_MODULE=tomar.settings.local
+   python3 -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+   ```
+4. Run tests (each app can also be tested individually)
+   ```
+   python manage.py test
    ```
 5. Apply migrations and start the server
     ```
