@@ -11,6 +11,7 @@ from .views import (
     PostDeleteView,
     SearchResultView,
 )
+from .api import get_categories, create_post, get_posts
 
 app_name = "blog"
 
@@ -24,4 +25,7 @@ urlpatterns = [
     path("p/<slug:slug>/delete/", PostDeleteView.as_view(), name="post_delete"),
     path("p/<slug:slug>/comments/", CommentView.as_view(), name="comment"),
     path("category/<slug:slug>/", CategoryView.as_view(), name="category"),
+    path('api/categories/', get_categories, name='get-categories'),
+    path('api/create-post/', create_post, name='create-post'),
+    path('api/posts/', get_posts, name='get-posts'),
 ]
