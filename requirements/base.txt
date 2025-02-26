@@ -6,4 +6,4 @@ django-prose-editor
 django-crispy-forms
 python-dotenv
 readtime
-django-debug-toolbar
+django-debug-toolbar                                                                
