@@ -10,7 +10,7 @@ load_dotenv(dotenv_path)
 
 DEBUG = False
 
-ALLOWED_HOSTS = [".railway.app", "127.0.0.1"]
+ALLOWED_HOSTS = ["bigaddict.shop", "127.0.0.1", "www.bigaddict.shop"]
 
 INSTALLED_APPS += ["anymail"]
 
@@ -41,7 +41,7 @@ ANYMAIL = {
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
 
 
-CSRF_TRUSTED_ORIGINS = ["https://*.railway.app"]
+CSRF_TRUSTED_ORIGINS = ["https://*.bigaddict.shop"]
 
 
 # Update database configuration from $DATABASE_URL.
