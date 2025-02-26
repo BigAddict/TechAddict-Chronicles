@@ -1,8 +1,13 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.response import Response
 from django.utils.text import slugify
 from django.contrib.auth import get_user_model
 from .models import Post, Category
+
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.authtoken.models import Token
+
 
 User = get_user_model()
 
@@ -13,6 +18,8 @@ def get_categories(request):
     return Response({"categories": list(categories)})
 
 @api_view(['POST'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def create_post(request):
     """API to create a blog post via n8n"""
     title = request.data.get('title')

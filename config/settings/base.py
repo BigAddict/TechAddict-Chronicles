@@ -53,6 +53,7 @@ THIRD_PARTY_APPS = [
     "crispy_bootstrap5",
     "django_prose_editor",
     "rest_framework",
+    "rest_framework.authtoken",
 ]
 
 LOCAL_APPS = [
@@ -215,3 +216,12 @@ CKEDITOR_CONFIGS = {
 }
 
 ADMIN_URL = os.getenv("ADMIN_URL", "admin")
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.TokenAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+}
