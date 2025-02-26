@@ -1,4 +1,4 @@
-from ckeditor.fields import RichTextField
+from django_prose_editor.fields import ProseEditorField
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
@@ -35,7 +35,7 @@ class Post(models.Model):
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=206, unique=True)
-    content = RichTextField()
+    content = ProseEditorField()
     status = models.SmallIntegerField(choices=STATUS, default=0)
     modified_at = models.DateTimeField(auto_now=True)
 

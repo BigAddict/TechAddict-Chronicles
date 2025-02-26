@@ -8,11 +8,9 @@ from config.settings.base import *
 dotenv_path = os.path.join(BASE_DIR, ".env.production")
 load_dotenv(dotenv_path)
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["bigaddict.shop", "127.0.0.1", "www.bigaddict.shop"]
-
-INSTALLED_APPS += ["anymail"]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -23,6 +21,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
@@ -33,10 +32,7 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # https://anymail.readthedocs.io/en/stable/installation/#installing-anymail
 # https://anymail.readthedocs.io/en/stable/esps/sendgrid/
 
-EMAIL_BACKEND = "anymail.backends.sendgrid.EmailBackend"
-ANYMAIL = {
-    "SENDGRID_API_KEY": os.getenv("SENDGRID_API_KEY"),
-}
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
 
@@ -49,3 +45,9 @@ import dj_database_url
 
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES["default"].update(db_from_env)
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'davidnjihia536@gmail.com'
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True

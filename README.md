@@ -1,7 +1,7 @@
 <a name="readme-top"></a>
 
 <div align="center">
-  <h3 align="center">Tomar</h3>
+  <h3 align="center">TechAddict Chronicles</h3>
 
   <p align="center">
     Medium like website where users can read and share stories freely!

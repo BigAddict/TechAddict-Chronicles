@@ -14,7 +14,7 @@
 {% user_display confirmation.email_address.user as user_display %}
 
 <p>{% blocktranslate with confirmation.email_address.email as email %}Please confirm that <a
-    href="mailto:{{ email }}">{{ email }}</a> is email address for your Tomar account.{% endblocktranslate %}</p>
+    href="mailto:{{ email }}">{{ email }}</a> is email address for your TechAddict Chronicles account.{% endblocktranslate %}</p>
 
 <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
   {% csrf_token %}

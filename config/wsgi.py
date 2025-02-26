@@ -1,5 +1,5 @@
 """
-WSGI config for tomar project.
+WSGI config for TechAddict Chronicles project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
