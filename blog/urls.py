@@ -27,7 +27,7 @@ urlpatterns = [
     path("p/<slug:slug>/comments/", CommentView.as_view(), name="comment"),
     path("category/<slug:slug>/", CategoryView.as_view(), name="category"),
     path('api/categories/', get_categories, name='get-categories'),
-    path("categories/create/", CreateCategoryView.as_view(), name="create-category"),
+    path("api/categories/create/", CreateCategoryView.as_view(), name="create-category"),
     path('api/create-post/', create_post, name='create-post'),
     path('api/posts/', get_posts, name='get-posts'),
 ]
