@@ -5,9 +5,11 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import View, ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from rest_framework import generics, permissions
 
 from .forms import CommentForm
 from .models import Post, Category, Comment
+from .serializers import CategorySerializer
 
 
 def get_saved_posts(user):
@@ -125,7 +127,12 @@ class CategoryView(ListView):
         context["popular_categories"] = Category.objects.all()[:6]
         context["saved_posts"] = get_saved_posts(self.request.user)
         return context
-
+    
+class CreateCategoryView(generics.CreateAPIView):
+    """Allows authenticated users to create categories."""
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 class SearchResultView(ListView):
     model = Post
