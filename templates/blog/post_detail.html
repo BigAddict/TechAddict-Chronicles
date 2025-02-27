@@ -27,8 +27,8 @@
                 class="fas fa-trash"></i></a>
           </div>
           {% else %}
-          {% csrf_token %}
           <button class="bookmark" value="{{ post.pk }}" title="Bookmark story">
+            {% csrf_token %}
             {% if post in saved_posts %}
             <i class="fas fa-bookmark"></i>
             {% else %}
@@ -57,7 +57,7 @@
                   {% endif %}
                 </button>
               </div>
-              <a href="{% url 'blog:comment' post.slug %}" class="text-muted" title="Commnets"><i
+              <a href="{% url 'blog:comment' post.slug %}" class="text-muted" title="Comments"><i
                   class="far fa-comment-dots me-1"></i>
                 <span>{{ post.comments.count }}</span></a>
             </div>
@@ -123,8 +123,6 @@
 
 {% include "footer.html" %}
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
-  integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
-  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 {% endblock %}

@@ -44,6 +44,18 @@ CSRF_TRUSTED_ORIGINS = ["https://*.bigaddict.shop"]
 import dj_database_url
 
 db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.getenv("DB_NAME"),
+        "USER": os.getenv("DB_USER"),
+        "PASSWORD": os.getenv("DB_PASSWORD"),
+        "HOST": os.getenv("DB_HOST"),
+        "PORT": os.getenv("DB_PORT"),
+        "OPTIONS": {"sslmode": os.getenv("DB_SSLMODE")},
+    }
+}
+
 DATABASES["default"].update(db_from_env)
 
 EMAIL_HOST = 'smtp.gmail.com'

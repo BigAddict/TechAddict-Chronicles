@@ -5,18 +5,21 @@ $(document).ready(function () {
     // AJAX request to save/unsave posts
     $(".bookmark").off("click").on("click", function () {
         const $this = $(this); // clicked button
+        // Prevent multiple clicks
+        if ($this.hasClass('processing')) return;
+        $this.addClass('processing');
+
         const post_id = $this.val();
 
         $.ajax({
             method: "POST",
-            url: "/accounts/bookmark/",
+            url: "/ac/bookmark/",
             data: {
                 post_id: post_id,
                 csrfmiddlewaretoken: csrf_token,
             },
             statusCode: {
                 200: function (response) {
-                    clicked_btn = $("button[value='" + response["post_id"] + "']")
                     if (response["is_saved"] == true) {
                         $this.html('<i class="fas fa-bookmark"></i>');
                     } else {
@@ -26,6 +29,9 @@ $(document).ready(function () {
                 401: function (response) {
                     window.location.href = "/accounts/login/";
                 }
+            },
+            complete: function() {
+                $this.removeClass('processing');
             }
         })
     })
@@ -33,11 +39,15 @@ $(document).ready(function () {
     // AJAX request to follow/unfollow user
     $(".follow").off("click").on("click", function () {
         const $this = $(this);
+        // Prevent multiple clicks
+        if ($this.hasClass('processing')) return;
+        $this.addClass('processing');
+
         const user_id = $this.val();
 
         $.ajax({
             method: "POST",
-            url: "/accounts/follow/",
+            url: "/ac/follow/",
             data: {
                 user_id: user_id,
                 csrfmiddlewaretoken: csrf_token,
@@ -55,6 +65,9 @@ $(document).ready(function () {
                 401: function (response) {
                     window.location.href = "/accounts/login/";
                 }
+            },
+            complete: function() {
+                $this.removeClass('processing');
             }
         })
     });
@@ -62,11 +75,15 @@ $(document).ready(function () {
     // AJAX request to like/unlike posts
     $(".like").off("click").on("click", function () {
         const $this = $(this); // clicked button
+        // Prevent multiple clicks
+        if ($this.hasClass('processing')) return;
+        $this.addClass('processing');
+
         const post_id = $this.val();
 
         $.ajax({
             method: "POST",
-            url: "/accounts/like/",
+            url: "/ac/like/",
             data: {
                 post_id: post_id,
                 csrfmiddlewaretoken: csrf_token,
@@ -79,13 +96,14 @@ $(document).ready(function () {
                     } else {
                         $this.html('<i class="far fa-heart text-primary me-2"></i>' + likes);
                     }
-
                 },
                 401: function (response) {
                     window.location.href = "/accounts/login/";
                 }
+            },
+            complete: function() {
+                $this.removeClass('processing');
             }
         })
     })
-
 })
