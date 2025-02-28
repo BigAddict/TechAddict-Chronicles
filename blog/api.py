@@ -47,5 +47,5 @@ def create_post(request):
 @api_view(['GET'])
 def get_posts(request):
     """API to list all posts"""
-    posts = Post.objects.values("id", "title", "slug", "status", "category__name")
+    posts = Post.objects.values("id", "title", "slug", "status", "content", "category__name")
     return Response({"posts": list(posts)})
